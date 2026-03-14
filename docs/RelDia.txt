@@ -1,0 +1,21 @@
+Book - Central Artifact
+Author - Scribe of Forbidden Texts
+Member - Patron of the Library
+Loan - Record of a Book Being Lent
+Tag - Thematic Classification e.g. Cosmic, Forbidden...
+LibraryCard - Issued to a Member, One Per Person
+
+Member - LibraryCard @OneToOne
+Author - Book @OneToMany //One author many books
+Member - Loan @OneToMany //One member many loans
+Book - Tag @ManyToMany 
+Member - Book @ManyToMany //Wishlist,Favs
+
+Author(id, name, nationality)
+Book(id, title, publishedYear, author_id→Author)
+Member(id, fullName, email)
+LibraryCard(id, cardNumber, issueDate, member_id→Member)
+Loan(id, loanDate, returnDate, member_id→Member, book_id→Book)
+Tag(id, name)
+BookTag(book_id→Book, tag_id→Tag)
+MemberBook(member_id→Member, book_id→Book)
