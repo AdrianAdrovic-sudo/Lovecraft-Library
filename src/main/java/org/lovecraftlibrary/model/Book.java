@@ -1,27 +1,33 @@
 package org.lovecraftlibrary.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import java.util.List;
 
 @Entity
-@Table(name = "book")
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
-    private int publishedYear;
 
-    @Transient
+    private String title;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
     private Author author;
 
-    @Transient
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "book_tag", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags;
 
     public Long getId() {
@@ -38,14 +44,6 @@ public class Book {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public int getPublishedYear() {
-        return publishedYear;
-    }
-
-    public void setPublishedYear(int publishedYear) {
-        this.publishedYear = publishedYear;
     }
 
     public Author getAuthor() {

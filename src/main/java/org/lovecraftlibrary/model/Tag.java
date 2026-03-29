@@ -1,23 +1,25 @@
 package org.lovecraftlibrary.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.ManyToMany;
 import java.util.List;
 
 @Entity
-@Table(name = "tag")
 public class Tag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
 
-    @Transient
+    @JsonIgnore
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
     private List<Book> books;
 
     public Long getId() {

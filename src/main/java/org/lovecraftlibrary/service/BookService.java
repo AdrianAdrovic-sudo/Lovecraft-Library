@@ -14,11 +14,26 @@ public class BookService {
     EntityManager em;
 
     @Transactional
-    public void save(Book book) {
+    public Book save(Book book) {
         em.persist(book);
+        return book;
     }
 
     public List<Book> findAll() {
         return em.createQuery("SELECT b FROM Book b", Book.class).getResultList();
+    }
+
+    public Book findById(Long id) {
+        return em.find(Book.class, id);
+    }
+
+    public List<Book> findByTitle(String title) {
+        return em.createQuery("SELECT b FROM Book b WHERE b.title = :title", Book.class)
+                .setParameter("title", title)
+                .getResultList();
+    }
+
+    public long countAll() {
+        return em.createQuery("SELECT COUNT(b) FROM Book b", Long.class).getSingleResult();
     }
 }

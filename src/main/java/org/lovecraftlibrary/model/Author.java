@@ -1,24 +1,32 @@
 package org.lovecraftlibrary.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import java.util.List;
 
 @Entity
-@Table(name = "author")
 public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String nationality;
 
-    @Transient
+    private String name;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile_id")
+    private AuthorProfile profile;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private List<Book> books;
 
     public Long getId() {
@@ -37,12 +45,12 @@ public class Author {
         this.name = name;
     }
 
-    public String getNationality() {
-        return nationality;
+    public AuthorProfile getProfile() {
+        return profile;
     }
 
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
+    public void setProfile(AuthorProfile profile) {
+        this.profile = profile;
     }
 
     public List<Book> getBooks() {
