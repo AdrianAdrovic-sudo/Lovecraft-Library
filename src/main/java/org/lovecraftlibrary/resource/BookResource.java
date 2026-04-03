@@ -1,5 +1,6 @@
 package org.lovecraftlibrary.resource;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -23,6 +24,7 @@ public class BookResource {
     BookService bookService;
 
     @POST
+    @RolesAllowed("admin")
     public Response create(Book book) {
         bookService.save(book);
         return Response.status(Response.Status.CREATED).entity(book).build();
