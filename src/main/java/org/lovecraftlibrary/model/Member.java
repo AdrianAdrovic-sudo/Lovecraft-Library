@@ -33,6 +33,9 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<MemberBook> wishlist;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TimeZone> timeZones;
+
     public Long getId() {
         return id;
     }
@@ -71,5 +74,13 @@ public class Member {
 
     public void setWishlist(List<MemberBook> wishlist) {
         this.wishlist = wishlist;
+    }
+
+    public List<TimeZone> getTimeZones() {
+        return timeZones;
+    }
+
+    public void setTimeZones(List<TimeZone> timeZones) {
+        this.timeZones = timeZones;
     }
 }
